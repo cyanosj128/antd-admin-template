@@ -1,25 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {Layout} from 'antd';
+import Sidebar from './layouts/Sidebar';
+import CustomHeader from './layouts/CustomHeader';
+import {Routes, Route} from 'react-router-dom';
+import {routers} from './routers';
+
+const {Content} = Layout;
 
 function App() {
+  const routes = routers.map(router => (
+    <Route
+      key={router.key}
+      path={router.path}
+      element={router.page}
+    />
+  ));
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout
+      hasSider={true}
+      style={{minHeight: '100vh'}}
+    >
+      <Sidebar/>
+      <Layout style={{minHeight: '100%'}}>
+        <CustomHeader/>
+        <Content>
+          <div style={{padding: 6, minHeight: '100%'}}>
+            <Routes>
+              {routes}
+            </Routes>
+          </div>
+        </Content>
+      </Layout>
+    </Layout>
   );
 }
 
