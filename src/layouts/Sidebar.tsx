@@ -9,23 +9,6 @@ function Sidebar() {
   const currentLocation = useLocation();
   const history = useNavigate();
   
-  const menuItems = [];
-  
-  for (let i = 0; i < routers.length; i++) {
-    const router = routers[i];
-    if (!router.title) continue;
-    
-    menuItems.push(
-      <Menu.Item
-        key={router.key}
-        icon={router.icon}
-        onClick={() => history(router.key)}
-      >
-        {router.title}
-      </Menu.Item>
-    );
-  }
-  
   return (
     <Sider
       collapsible={true}
@@ -35,9 +18,16 @@ function Sidebar() {
       breakpoint={'lg'}
       theme={'light'}
     >
-      <Menu mode={'inline'} selectedKeys={[currentLocation.pathname]}>
-        {menuItems}
-      </Menu>
+      <Menu 
+        mode={'inline'} 
+        selectedKeys={[currentLocation.pathname]}
+        items={routers.map(({key, label, icon, path}) => ({
+          key: key,
+          label: label,
+          icon: icon,
+          onClick: () => history(path),
+        }))}
+      />
     </Sider>
   );
 }
